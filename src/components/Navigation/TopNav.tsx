@@ -17,6 +17,26 @@ function TopNav({ onAuthClick, authButtonRef }: Props) {
     setIsMobileMenuOpen(false)
   }
 
+  const handleCreateClick = () => {
+    if (user) {
+      navigate('/create')
+      setIsMobileMenuOpen(false)
+    } else {
+      onAuthClick()
+      setIsMobileMenuOpen(false)
+    }
+  }
+
+  const handleChatsClick = () => {
+    if (user) {
+      navigate('/chats')
+      setIsMobileMenuOpen(false)
+    } else {
+      onAuthClick()
+      setIsMobileMenuOpen(false)
+    }
+  }
+
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen)
 
   return (
@@ -31,10 +51,10 @@ function TopNav({ onAuthClick, authButtonRef }: Props) {
           <button className="navLink" onClick={navigateTo('/')}>
             Мероприятия
           </button>
-          <button className="navLink" onClick={navigateTo('/chats')}>
+          <button className="navLink" onClick={handleChatsClick}>
             Чаты
           </button>
-          <button className="navLink" onClick={navigateTo('/create')}>
+          <button className="navLink" onClick={handleCreateClick}>
             Создать
           </button>
           {user ? (
@@ -69,10 +89,10 @@ function TopNav({ onAuthClick, authButtonRef }: Props) {
           <button className="navLink" onClick={navigateTo('/')}>
             Мероприятия
           </button>
-          <button className="navLink" onClick={navigateTo('/chats')}>
+          <button className="navLink" onClick={handleChatsClick}>
             Чаты
           </button>
-          <button className="navLink" onClick={navigateTo('/create')}>
+          <button className="navLink" onClick={handleCreateClick}>
             Создать
           </button>
           {user ? (

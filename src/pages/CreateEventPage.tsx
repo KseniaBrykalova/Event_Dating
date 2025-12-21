@@ -1,18 +1,32 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CreateEventForm from '../components/CreateEvent/CreateEventForm'
+import { useAuth } from '../context/AuthContext'
 import { useEvents } from '../context/EventsContext'
 import type { EventCategory } from '../types/event'
 import { createEvent } from '../utils/eventUtils'
 
 function CreateEventPage() {
   const { addEvent } = useEvents()
+  const { user } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/')
+      return
+    }
+  }, [user, navigate])
 
   const handleSave = (payload: { title: string; startsAt: string; coverFileName: string | null; category: EventCategory }) => {
     const newEvent = createEvent(payload)
     addEvent(newEvent)
     console.log('Мероприятие создано:', newEvent)
     navigate('/')
+  }
+
+  if (!user) {
+    return null // Будет редирект на главную через useEffect
   }
 
   return (
