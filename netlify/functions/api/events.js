@@ -53,7 +53,7 @@ exports.handler = async (event, context) => {
     }
 
     if (event.httpMethod === 'POST') {
-      const body: CreateEventRequest = JSON.parse(event.body || '{}')
+      const body = JSON.parse(event.body || '{}')
       const { title, category, starts_at, cover_variant = 'mint', description, author_id } = body
 
       if (!title || !category || !starts_at || !author_id) {

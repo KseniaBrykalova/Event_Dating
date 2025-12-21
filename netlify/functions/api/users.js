@@ -26,7 +26,7 @@ exports.handler = async (event, context) => {
       return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) }
     }
 
-    const body: CreateUserRequest = JSON.parse(event.body || '{}')
+    const body = JSON.parse(event.body || '{}')
     const { name, email, password, avatar_url } = body
 
     if (!name || !email || !password) {
