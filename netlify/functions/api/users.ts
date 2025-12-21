@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 async function getConnection() {
   const { Pool } = await import('pg')
   return new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: process.env.NETLIFY_DATABASE_URL,
     ssl: { rejectUnauthorized: false }
   })
 }
