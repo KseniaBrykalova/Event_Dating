@@ -1,6 +1,6 @@
 // API сервис для работы с бэкендом
 
-const API_BASE_URL = '/.netlify/functions/api'
+const API_BASE_URL = '/.netlify/functions'
 
 export interface User {
   id: string
