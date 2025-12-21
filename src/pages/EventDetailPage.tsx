@@ -4,7 +4,7 @@ import editIcon from '../assets/edit-icon.svg'
 import { useAuth } from '../context/AuthContext'
 import { useEvents } from '../context/EventsContext'
 import { mockEvents } from '../data/mockEvents'
-import type { EventCoverVariant } from '../types/event'
+import type { EventCategory, EventCoverVariant } from '../types/event'
 
 function EventDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -29,6 +29,12 @@ function EventDetailPage() {
   const [tempDescription, setTempDescription] = useState(event?.description || '')
   const [tempCoverVariant, setTempCoverVariant] = useState<EventCoverVariant>(event?.coverVariant || 'mint')
   const [tempCustomCover, setTempCustomCover] = useState<string | undefined>(event?.customCover)
+  
+  // Управление тегами
+  const [tempCategories, setTempCategories] = useState<EventCategory[]>(
+    event?.categories || [event?.category].filter(Boolean) as EventCategory[]
+  )
+  const [showTagInput, setShowTagInput] = useState(false)
   
   if (!event) {
     return (
@@ -84,6 +90,29 @@ function EventDetailPage() {
     }
     
     return ''
+  }
+
+  const removeTag = (tagToRemove: EventCategory) => {
+    if (tempCategories.length > 1) {
+      const newCategories = tempCategories.filter(tag => tag !== tagToRemove)
+      setTempCategories(newCategories)
+      updateEvent(event.id, { 
+        categories: newCategories,
+        category: newCategories[0]
+      })
+    }
+  }
+
+  const addTagToEvent = (tag: EventCategory) => {
+    if (!tempCategories.includes(tag)) {
+      const newCategories = [...tempCategories, tag]
+      setTempCategories(newCategories)
+      updateEvent(event.id, { 
+        categories: newCategories,
+        category: newCategories[0]
+      })
+    }
+    setShowTagInput(false)
   }
 
   const formatStartsAt = (value: string) => {
@@ -352,18 +381,77 @@ function EventDetailPage() {
             </div>
           ) : (
             <div className="eventDetail__datetimeWithEdit">
-              <div>
-                <span className="eventDetail__date">{formatStartsAt(event.startsAt)}</span>
-                <span className="eventDetail__category">{event.category}</span>
+              <div className="eventDetail__datetimeContent">
+                <div className="eventDetail__dateWithEdit">
+                  <span className="eventDetail__date">{formatStartsAt(event.startsAt)}</span>
+                  {user && user.email === event.author && (
+                    <button 
+                      className="eventDetail__editButton"
+                      onClick={() => setEditingDateTime(true)}
+                    >
+                      <img src={editIcon} alt="Редактировать" />
+                    </button>
+                  )}
+                </div>
+                <div className="eventDetail__tagsContainer">
+                  {tempCategories.map((category, index) => (
+                    <span 
+                      key={index}
+                      className={`eventDetail__category eventDetail__category--removable ${user && user.email === event.author ? 'eventDetail__category--editable' : ''}`}
+                      onClick={() => user && user.email === event.author && removeTag(category)}
+                    >
+                      {category}
+                      {user && user.email === event.author && tempCategories.length > 1 && (
+                        <span className="eventDetail__categoryRemove">×</span>
+                      )}
+                    </span>
+                  ))}
+                  {user && user.email === event.author && (
+                    <div className="eventDetail__categoryAddWrapper">
+                      <button 
+                        className="eventDetail__categoryAdd"
+                        onClick={() => setShowTagInput(!showTagInput)}
+                      >
+                        +
+                      </button>
+                      {showTagInput && (
+                        <div className="eventDetail__tagDropdown">
+                          <div 
+                            className="eventDetail__tagOption"
+                            onClick={() => addTagToEvent('Спорт')}
+                          >
+                            Спорт
+                          </div>
+                          <div 
+                            className="eventDetail__tagOption"
+                            onClick={() => addTagToEvent('Культура')}
+                          >
+                            Культура
+                          </div>
+                          <div 
+                            className="eventDetail__tagOption"
+                            onClick={() => addTagToEvent('Еда')}
+                          >
+                            Еда
+                          </div>
+                          <div 
+                            className="eventDetail__tagOption"
+                            onClick={() => addTagToEvent('Прогулка')}
+                          >
+                            Прогулка
+                          </div>
+                          <div 
+                            className="eventDetail__tagOption"
+                            onClick={() => addTagToEvent('Другое')}
+                          >
+                            Другое
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-              {user && user.email === event.author && (
-                <button 
-                  className="eventDetail__editButton"
-                  onClick={() => setEditingDateTime(true)}
-                >
-                  <img src={editIcon} alt="Редактировать" />
-                </button>
-              )}
             </div>
           )}
         </div>

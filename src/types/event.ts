@@ -6,6 +6,7 @@ export type EventItem = {
   id: string
   title: string
   category: EventCategory
+  categories?: EventCategory[]
   startsAt: string
   coverVariant: EventCoverVariant
   customCover?: string

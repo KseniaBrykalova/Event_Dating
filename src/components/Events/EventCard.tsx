@@ -23,6 +23,8 @@ function formatStartsAt(value: string) {
 }
 
 function EventCard({ event }: Props) {
+  const categories = event.categories || [event.category]
+  
   return (
     <Link to={`/events/${event.id}`} className="eventCard">
       <div 
@@ -39,7 +41,11 @@ function EventCard({ event }: Props) {
         <div className="eventCard__meta">
           <span className="eventCard__date">{formatStartsAt(event.startsAt)}</span>
           <span className="dot" aria-hidden="true" />
-          <span className="eventCard__category">{event.category}</span>
+          <div className="eventCard__categories">
+            {categories.map((category, index) => (
+              <span key={index} className="eventCard__category">{category}</span>
+            ))}
+          </div>
         </div>
       </div>
     </Link>

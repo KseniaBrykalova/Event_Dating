@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import ActiveFilters from '../components/Home/ActiveFilters'
 import EventsFilters from '../components/Home/EventsFilters'
 import EventsSection from '../components/Home/EventsSection'
 import EventsToolbar from '../components/Home/EventsToolbar'
@@ -69,6 +70,29 @@ function HomePage() {
     setInterests('')
   }
 
+  const clearSingleFilter = (filterType: string) => {
+    switch (filterType) {
+      case 'dateFrom':
+        setDateFrom('')
+        break
+      case 'dateTo':
+        setDateTo('')
+        break
+      case 'timeFrom':
+        setTimeFrom('')
+        break
+      case 'timeTo':
+        setTimeTo('')
+        break
+      case 'category':
+        setCategory('')
+        break
+      case 'interests':
+        setInterests('')
+        break
+    }
+  }
+
   return (
     <div className="container">
       <section className="hero">
@@ -100,6 +124,19 @@ function HomePage() {
             onInterestsChange={setInterests}
             onClear={clearFilters}
             onDone={() => setFiltersOpen(false)}
+          />
+        )}
+
+        {!filtersOpen && (
+          <ActiveFilters
+            dateFrom={dateFrom}
+            dateTo={dateTo}
+            timeFrom={timeFrom}
+            timeTo={timeTo}
+            category={category}
+            interests={interests}
+            onClearFilter={clearSingleFilter}
+            onClearAll={clearFilters}
           />
         )}
       </section>
