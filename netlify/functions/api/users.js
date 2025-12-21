@@ -1,35 +1,16 @@
-import { Handler } from "@netlify/functions"
-import bcrypt from 'bcryptjs'
+const bcrypt = require('bcryptjs')
 
 // Утилита для подключения к базе данных
 async function getConnection() {
-  const { Pool } = await import('pg')
+  const { Pool } = require('pg')
   return new Pool({
     connectionString: process.env.NETLIFY_DATABASE_URL,
     ssl: { rejectUnauthorized: false }
   })
 }
 
-// Типы пользователей
-interface User {
-  id: string
-  name: string
-  email: string
-  password_hash: string
-  avatar_url?: string
-  created_at: string
-  updated_at: string
-}
-
-interface CreateUserRequest {
-  name: string
-  email: string
-  password: string
-  avatar_url?: string
-}
-
 // POST /api/users - регистрация нового пользователя
-export const handler: Handler = async (event, context) => {
+exports.handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',

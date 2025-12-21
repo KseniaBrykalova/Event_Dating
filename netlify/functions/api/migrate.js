@@ -1,8 +1,6 @@
-import { Handler } from "@netlify/functions"
-
 // Утилита для подключения к базе данных
 async function getConnection() {
-  const { Pool } = await import('pg')
+  const { Pool } = require('pg')
   return new Pool({
     connectionString: process.env.NETLIFY_DATABASE_URL,
     ssl: { rejectUnauthorized: false }
@@ -10,7 +8,7 @@ async function getConnection() {
 }
 
 // POST /api/migrate - выполнение миграций базы данных
-export const handler: Handler = async (event, context) => {
+exports.handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',

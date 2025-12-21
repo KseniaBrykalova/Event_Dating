@@ -1,38 +1,15 @@
-import { Handler } from "@netlify/functions"
-
 // Утилита для подключения к базе данных
 async function getConnection() {
-  const { Pool } = await import('pg')
+  const { Pool } = require('pg')
   return new Pool({
     connectionString: process.env.NETLIFY_DATABASE_URL,
     ssl: { rejectUnauthorized: false }
   })
 }
 
-interface Event {
-  id: string
-  title: string
-  category: string
-  starts_at: string
-  cover_variant: string
-  description?: string
-  author_id: string
-  created_at: string
-  updated_at: string
-}
-
-interface CreateEventRequest {
-  title: string
-  category: string
-  starts_at: string
-  cover_variant?: string
-  description?: string
-  author_id: string
-}
-
 // GET /api/events - получение всех мероприятий
 // POST /api/events - создание нового мероприятия
-export const handler: Handler = async (event, context) => {
+exports.handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
