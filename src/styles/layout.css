@@ -1,0 +1,30 @@
+ .container {
+   width: 100%;
+   max-width: var(--container);
+   margin: 0 auto;
+   padding: 0 20px;
+ }
+ 
+ .appShell {
+   min-height: 100vh;
+   background: var(--bg);
+ }
+ 
+ .page {
+   padding: 28px 0 64px;
+ }
+ 
+  
+  
+  
+ .navLinks {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+ }
+ 
+ @media (max-width: 640px) {
+   .navLinks {
+     gap: 6px;
+   }
+ }

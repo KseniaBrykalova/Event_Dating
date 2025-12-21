@@ -1,0 +1,30 @@
+import { useNavigate } from 'react-router-dom'
+import CreateEventForm from '../components/CreateEvent/CreateEventForm'
+import { useEvents } from '../context/EventsContext'
+import type { EventCategory } from '../types/event'
+import { createEvent } from '../utils/eventUtils'
+
+function CreateEventPage() {
+  const { addEvent } = useEvents()
+  const navigate = useNavigate()
+
+  const handleSave = (payload: { title: string; startsAt: string; coverFileName: string | null; category: EventCategory }) => {
+    const newEvent = createEvent(payload)
+    addEvent(newEvent)
+    console.log('Мероприятие создано:', newEvent)
+    navigate('/')
+  }
+
+  return (
+    <div className="container">
+      <div className="pageHeader">
+        <h1 className="h1">Создание мероприятия</h1>
+        <p className="muted">Заполни основные поля и сохрани.</p>
+      </div>
+
+      <CreateEventForm onSave={handleSave} />
+    </div>
+  )
+}
+
+export default CreateEventPage
