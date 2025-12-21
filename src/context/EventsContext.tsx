@@ -38,16 +38,22 @@ export function EventsProvider({ children }: { children: ReactNode }) {
   const addEvent = async (event: EventItem) => {
     try {
       setError(null)
-      // В реальном приложении нужно получить ID текущего пользователя
-      const currentUserEmail = 'current-user@example.com' // Временно
+      
+      // Получаем текущего пользователя из localStorage
+      const currentUser = JSON.parse(localStorage.getItem('event_dating_current_user') || '{}')
+      
+      if (!currentUser.id) {
+        throw new Error('Пользователь не авторизован')
+      }
+      
       await eventsService.createEvent({
         title: event.title,
         category: event.category,
         starts_at: event.startsAt,
         cover_variant: event.coverVariant,
         description: event.description,
-        author_id: 'current-user-id' // Временно
-      }, currentUserEmail)
+        author_id: currentUser.id
+      }, currentUser.email)
       
       await refreshEvents()
     } catch (err) {
