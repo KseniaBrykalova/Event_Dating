@@ -36,6 +36,9 @@ function SwipePage() {
 		['rgba(255, 0, 0, 0.1)', 'rgba(0, 0, 0, 0)', 'rgba(0, 255, 0, 0.1)']
 	)
 
+	const crossOpacity = useTransform(x, [-100, -20], [1, 0])
+	const heartOpacity = useTransform(x, [20, 100], [0, 1])
+
 	// Reset x when index changes (new card)
 	useEffect(() => {
 		x.set(0)
@@ -109,6 +112,37 @@ function SwipePage() {
 				className='swipePage__tint'
 				style={{ background: pageTint }}
 			/>
+
+			{/* Background Status Icons */}
+			<div className='swipePage__bgIcons'>
+				<motion.div
+					className='swipePage__bgIcon swipePage__bgIcon--pass'
+					style={{ opacity: crossOpacity }}
+				>
+					<svg
+						viewBox='0 0 24 24'
+						fill='none'
+						stroke='currentColor'
+						strokeWidth='2'
+					>
+						<line x1='18' y1='6' x2='6' y2='18'></line>
+						<line x1='6' y1='6' x2='18' y2='18'></line>
+					</svg>
+				</motion.div>
+				<motion.div
+					className='swipePage__bgIcon swipePage__bgIcon--like'
+					style={{ opacity: heartOpacity }}
+				>
+					<svg
+						viewBox='0 0 24 24'
+						fill='none'
+						stroke='currentColor'
+						strokeWidth='2'
+					>
+						<polyline points='20 6 9 17 4 12'></polyline>
+					</svg>
+				</motion.div>
+			</div>
 
 			{/* Swipe Toolbar (Mobile Only) */}
 			<div className='swipePage__mobileToolbar'>

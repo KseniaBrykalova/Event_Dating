@@ -1,11 +1,58 @@
 @import './SwipePage_slider.css';
 
 .swipePage {
-	height: 100vh;
+	/* Force fullscreen and kill scroll */
+	position: fixed;
+	top: 60px; /* Offset for TopNav */
+	left: 0;
+	width: 100vw;
+	height: calc(100vh - 60px);
 	display: flex;
 	background-color: #f5f5f5;
 	overflow: hidden;
+	z-index: 10; /* Above normal content but below mobile menu if needed */
 	--accent-orange: #ff6b00; /* Orange accent */
+}
+
+/* Background Icons */
+.swipePage__bgIcons {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.swipePage__bgIcon {
+	position: absolute;
+	width: 120px;
+	height: 120px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.swipePage__bgIcon svg {
+	width: 100%;
+	height: 100%;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.swipePage__bgIcon--pass {
+	left: 10%; /* Show on left side */
+	color: rgba(255, 71, 87, 0.2);
+}
+
+.swipePage__bgIcon--like {
+	right: 10%; /* Show on right side */
+	color: rgba(46, 204, 113, 0.2);
 }
 
 .swipePage__sidebar {
@@ -53,7 +100,6 @@
 	align-items: center;
 	justify-content: center;
 	position: relative;
-	padding: 20px;
 }
 
 .swipePage__cardContainer {
@@ -392,10 +438,6 @@
 		transform: translateY(0);
 	}
 
-	.swipePage__content {
-		padding: 10px;
-	}
-
 	.swipePage__cardContainer {
 		height: calc(100vh - 100px);
 	}
@@ -496,7 +538,6 @@
 	.swipePage__content {
 		flex: 1;
 		overflow: hidden; /* Prevent inner scroll overriding swipe */
-		padding: 10px;
 	}
 
 	.swipePage__cardContainer {
