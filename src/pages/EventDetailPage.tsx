@@ -456,11 +456,14 @@ function EventDetailPage() {
           )}
         </div>
         
-        {/* Кнопка "Хочу пойти" - показываем только если текущий пользователь не является автором */}
+        {/* Кнопка "Найти компанию" - показываем только если текущий пользователь не является автором */}
         {user && user.email !== event.author && (
-          <button className="button button--primary button--large eventDetail__action">
-            Хочу пойти
-          </button>
+          <Link 
+            to={`/events/${event.id}/swipe`} 
+            className="button button--primary button--large eventDetail__action"
+          >
+            Найти компанию
+          </Link>
         )}
         
         {/* Описание мероприятия */}
